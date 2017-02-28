@@ -317,6 +317,18 @@ HAProxy.prototype.ready = function ready(backend, server, fn) {
 };
 
 /**
+ * Forces the server health state to down immediately.
+ *
+ * @param {String} backend Name of the backend.
+ * @param {String} server The server to READY in the backend.
+ * @param {Function} fn Callback
+ * @api public
+ */
+HAProxy.prototype.healthDown = function ready(backend, server, fn) {
+  return this.send('set server %s/%s health down', backend, server).call(fn);
+};
+
+/**
  * Mark the frontend as temporarilty stopped. This corresponds to the mode which
  * is used during a soft restart. THe frontend releases the port but it can be
  * enabled again if needed.

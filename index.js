@@ -291,6 +291,32 @@ HAProxy.prototype.enable = function enable(backend, server, fn) {
 };
 
 /**
+ * Transitions the server to DRAIN state, removing the server from load balancing
+ * but continues monitoring.
+ *
+ * @param {String} backend Name of the backend.
+ * @param {String} server The server to DRAIN in the backend.
+ * @param {Function} fn Callback
+ * @api public
+ */
+HAProxy.prototype.drain = function drain(backend, server, fn) {
+  return this.send('set server %s/%s state drain', backend, server).call(fn);
+};
+
+/**
+ * Transitions the server to READY state.  Equivalent of the ENABLE SERVER
+ * command.
+ *
+ * @param {String} backend Name of the backend.
+ * @param {String} server The server to READY in the backend.
+ * @param {Function} fn Callback
+ * @api public
+ */
+HAProxy.prototype.ready = function ready(backend, server, fn) {
+  return this.send('set server %s/%s state ready', backend, server).call(fn);
+};
+
+/**
  * Mark the frontend as temporarilty stopped. This corresponds to the mode which
  * is used during a soft restart. THe frontend releases the port but it can be
  * enabled again if needed.
